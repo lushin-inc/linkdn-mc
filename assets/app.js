@@ -105,11 +105,12 @@
   if (!cfg) return;
 
   var KEY = "lcl:ch:" + cfg.id;
-  var rows = store.get(KEY, null);
-  if (!rows) {
-    rows = (cfg.topics || []).map(function (x) { return { t: null, x: x }; });
-    if (!rows.length) rows = [{ t: null, x: "" }];
+  function shipped() {
+    return (cfg.chapters || []).map(function (c) { return { t: c[0], x: c[1] }; });
   }
+  var rows = store.get(KEY, null);
+  if (!rows || !rows.length) rows = shipped();
+  if (!rows.length) rows = [{ t: null, x: "" }];
 
   var player = null, ready = false;
   var list = document.getElementById("chapList");
@@ -135,7 +136,7 @@
       b.type = "button";
       b.className = "stamp" + (r.t === null ? "" : " set");
       b.textContent = r.t === null ? "mark" : fmt(r.t);
-      b.title = r.t === null ? "Mark this moment in the video" : "Jump to " + fmt(r.t) + " (shift-click to clear)";
+      b.title = r.t === null ? "Set this to the current point in the video" : "Jump to " + fmt(r.t) + " (shift-click to clear)";
       b.setAttribute("aria-label", b.title);
       b.addEventListener("click", function (ev) {
         if (ev.shiftKey) { rows[i].t = null; save(); render(); return; }
@@ -209,7 +210,7 @@
   var resetBtn = document.getElementById("chapReset");
   if (resetBtn) resetBtn.addEventListener("click", function () {
     if (!confirm("Clear your marks and restore the starting topics for this video?")) return;
-    rows = (cfg.topics || []).map(function (x) { return { t: null, x: x }; });
+    rows = shipped();
     if (!rows.length) rows = [{ t: null, x: "" }];
     save(); render();
   });

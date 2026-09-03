@@ -100,122 +100,70 @@
     return h ? h + ":" + p(m) + ":" + p(ss) : m + ":" + p(ss);
   }
 
-  /* ---------- video page: player + chapters ---------- */
+  /* ---------- video page: player + chapters (read-only, click to jump) ---------- */
   var cfg = window.LCL_VIDEO;
   if (!cfg) return;
 
-  var KEY = "lcl:ch:" + cfg.id;
-  function shipped() {
-    return (cfg.chapters || []).map(function (c) { return { t: c[0], x: c[1] }; });
-  }
-  var rows = store.get(KEY, null);
-  if (!rows || !rows.length) rows = shipped();
-  if (!rows.length) rows = [{ t: null, x: "" }];
-
-  var player = null, ready = false;
+  var chapters = (cfg.chapters || []).slice().sort(function (a, b) { return a[0] - b[0]; });
   var list = document.getElementById("chapList");
+  var player = null, ready = false, btns = [], activeIdx = -1, tick = null;
 
   window.onYouTubeIframeAPIReady = function () {
     player = new YT.Player("ytplayer", {
       videoId: cfg.id,
       playerVars: { rel: 0, modestbranding: 1, playsinline: 1 },
-      events: { onReady: function () { ready = true; } }
+      events: {
+        onReady: function () { ready = true; },
+        onStateChange: function (e) {
+          if (e.data === YT.PlayerState.PLAYING) {
+            clearInterval(tick);
+            tick = setInterval(follow, 1000);
+            follow();
+          } else {
+            clearInterval(tick);
+          }
+        }
+      }
     });
   };
 
-  function save() { store.set(KEY, rows); }
+  function follow() {
+    if (!ready || !player || !player.getCurrentTime) return;
+    var t = player.getCurrentTime(), i = -1;
+    for (var k = 0; k < chapters.length; k++) {
+      if (chapters[k][0] <= t + 0.4) i = k; else break;
+    }
+    if (i === activeIdx) return;
+    if (btns[activeIdx]) btns[activeIdx].classList.remove("playing");
+    activeIdx = i;
+    if (btns[activeIdx]) btns[activeIdx].classList.add("playing");
+  }
 
-  function render() {
-    if (!list) return;
+  function jump(sec) {
+    if (!ready || !player) return;
+    player.seekTo(sec, true);
+    player.playVideo();
+    var top = document.querySelector(".player-wrap");
+    if (top && top.getBoundingClientRect().top < 0) {
+      top.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  if (list) {
     list.innerHTML = "";
-    rows.forEach(function (r, i) {
-      var row = document.createElement("div");
-      row.className = "chap-row";
-
+    chapters.forEach(function (c) {
       var b = document.createElement("button");
       b.type = "button";
-      b.className = "stamp" + (r.t === null ? "" : " set");
-      b.textContent = r.t === null ? "mark" : fmt(r.t);
-      b.title = r.t === null ? "Set this to the current point in the video" : "Jump to " + fmt(r.t) + " (shift-click to clear)";
-      b.setAttribute("aria-label", b.title);
-      b.addEventListener("click", function (ev) {
-        if (ev.shiftKey) { rows[i].t = null; save(); render(); return; }
-        if (r.t === null) {
-          if (!ready || !player) { toast("Start the video first"); return; }
-          rows[i].t = Math.floor(player.getCurrentTime());
-          save(); render();
-        } else {
-          if (!ready || !player) return;
-          player.seekTo(r.t, true);
-          player.playVideo();
-        }
-      });
-
-      var tx = document.createElement("div");
-      tx.className = "chap-topic";
-      tx.contentEditable = "true";
-      tx.setAttribute("role", "textbox");
-      tx.setAttribute("data-ph", "Topic");
-      tx.textContent = r.x;
-      tx.addEventListener("input", function () { rows[i].x = tx.textContent.trim(); save(); });
-      tx.addEventListener("keydown", function (ev) {
-        if (ev.key === "Enter") { ev.preventDefault(); addRow(i + 1); }
-      });
-
-      var del = document.createElement("button");
-      del.type = "button";
-      del.className = "chap-del";
-      del.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>';
-      del.title = "Remove";
-      del.setAttribute("aria-label", "Remove chapter");
-      del.addEventListener("click", function () {
-        rows.splice(i, 1);
-        if (!rows.length) rows = [{ t: null, x: "" }];
-        save(); render();
-      });
-
-      row.appendChild(b); row.appendChild(tx); row.appendChild(del);
-      list.appendChild(row);
+      b.className = "chap";
+      b.innerHTML = '<span class="chap-t"></span><span class="chap-x"></span>';
+      b.querySelector(".chap-t").textContent = fmt(c[0]);
+      b.querySelector(".chap-x").textContent = c[1];
+      b.setAttribute("aria-label", "Jump to " + fmt(c[0]) + " — " + c[1]);
+      b.addEventListener("click", function () { jump(c[0]); });
+      btns.push(b);
+      list.appendChild(b);
     });
   }
-
-  function addRow(at) {
-    rows.splice(at === undefined ? rows.length : at, 0, { t: null, x: "" });
-    save(); render();
-    var el = list.querySelectorAll(".chap-topic")[at === undefined ? rows.length - 1 : at];
-    if (el) el.focus();
-  }
-
-  var addBtn = document.getElementById("chapAdd");
-  if (addBtn) addBtn.addEventListener("click", function () { addRow(); });
-
-  var sortBtn = document.getElementById("chapSort");
-  if (sortBtn) sortBtn.addEventListener("click", function () {
-    rows.sort(function (a, b) {
-      if (a.t === null && b.t === null) return 0;
-      if (a.t === null) return 1;
-      if (b.t === null) return -1;
-      return a.t - b.t;
-    });
-    save(); render(); toast("Sorted by time");
-  });
-
-  var copyBtn = document.getElementById("chapCopy");
-  if (copyBtn) copyBtn.addEventListener("click", function () {
-    var out = rows.filter(function (r) { return r.t !== null || r.x; })
-      .map(function (r) { return (r.t === null ? "--:--" : fmt(r.t)) + "  " + r.x; }).join("\n");
-    copy(out, null);
-  });
-
-  var resetBtn = document.getElementById("chapReset");
-  if (resetBtn) resetBtn.addEventListener("click", function () {
-    if (!confirm("Clear your marks and restore the starting topics for this video?")) return;
-    rows = shipped();
-    if (!rows.length) rows = [{ t: null, x: "" }];
-    save(); render();
-  });
-
-  render();
 
   var tag = document.createElement("script");
   tag.src = "https://www.youtube.com/iframe_api";

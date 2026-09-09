@@ -43,6 +43,9 @@ def build_nav(depth, current=None):
         cur = CUR if current == s["slug"] else ''
         out.append('<a class="nav-head nav-direct"%s href="%sv/%s.html">%s%s</a>'
                    % (cur, p, s["slug"], dot(s["g"]), s["nav"]))
+    for e in getattr(C, "EXTRAS", []):
+        out.append('<a class="nav-head nav-direct" href="%s%s" target="_blank" rel="noopener">%s%s</a>'
+                   % (p, e["path"], dot(e["g"]), e["nav"]))
     tools = [("ai-content-bot","AI Content Bot"),("acceptance-checklist","50%+ Acceptance Rate Checklist"),
              ("lab-resources","Lab Resources"),("tuesday-training","Tuesday Training Vault")]
     openr = ' open' if current in [t[0] for t in tools] else ''
@@ -152,9 +155,23 @@ def main():
         if new != s:
             open(f, "w", encoding="utf-8").write(new); touched += 1
 
+    # home tiles for the standalone hubs
+    ix = ROOT+"/index.html"; s = open(ix, encoding="utf-8").read()
+    for e in getattr(C, "EXTRAS", []):
+        if 'class="tile" href="%s"' % e["path"] in s: continue   # nav link is not the tile
+        tile = ('<a class="tile" href="%s" target="_blank" rel="noopener" style="--t1:%s;--t2:%s">'
+                '<span class="tile-mark"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" '
+                'stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" '
+                'aria-hidden="true">%s</svg></span><span class="tile-name">%s</span></a>'
+                % (e["path"], e["g"][0], e["g"][1], e["icon"], html.escape(e["name"])))
+        anchor = '<a class="tile" href="sections/resources.html"'   # keep Resources last
+        s = s.replace(anchor, tile+anchor, 1) if anchor in s else s.replace('</div></div>\n</main>', tile+'</div></div>\n</main>')
+    open(ix, "w", encoding="utf-8").write(s)
+
     # tile label: "Masterclasses" -> "Masterclass" on the home page
     ix = ROOT+"/index.html"; s = open(ix, encoding="utf-8").read()
-    s = s.replace('<span class="tile-name">Masterclasses</span>', '<span class="tile-name">Masterclass</span>')
+    for a, z in (("Masterclasses", "Masterclass"), ("Answer Sessions", "Answers")):
+        s = s.replace('<span class="tile-name">%s</span>' % a, '<span class="tile-name">%s</span>' % z)
     open(ix, "w", encoding="utf-8").write(s)
 
     print(f"removed {removed} old pages")

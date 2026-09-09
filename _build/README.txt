@@ -7,3 +7,9 @@ How to change the timestamps
 
 Adding section 5 as a combined video later: add a dict to SECTIONS in
 chapters_new.py with its slug, YouTube id, duration, gradient and chapters.
+
+Standalone hubs (Sales Navigator)
+---------------------------------
+Files that keep their own layout live in tools/ and are listed in the EXTRAS
+block of chapters_new.py. They open in a new tab and nothing is written into
+them, so each file stays shareable on its own.

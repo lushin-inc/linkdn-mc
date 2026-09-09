@@ -314,6 +314,15 @@ ANSWERS=[
  ("2:31:28","Keeping it above board"),
 ]
 
+# Standalone hubs that live in the portal but keep their own layout.
+# They open in a new tab; nothing is injected into them, so each file stays
+# shareable on its own.
+EXTRAS=[
+ dict(slug="sales-navigator-hub", name="Sales Navigator", nav="Sales Navigator",
+      path="tools/sales-navigator-hub.html", g=("#D8434B","#EF6A52"),
+      icon='<path d="m21 21-4.35-4.35"/><circle cx="11" cy="11" r="7"/><path d="M11 8v6M8 11h6"/>'),
+]
+
 SECTIONS=[
  dict(slug="1-masterclass", name="Masterclass", nav="Masterclass",
       vid="hEbu8Gaedtc", dur="2:34:04", g=("#4B3FD1","#7C3FD1"), ch=MASTERCLASS,

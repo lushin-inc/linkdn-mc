@@ -1,31 +1,76 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-<meta charset="utf-8">
+<html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LinkedIn Client Lab</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
-<style>:root{--g1:#4B3FD1;--g2:#7C3FD1}</style>
+<title>Talk Tracks</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --ink: #17181c;
+  --muted: #6b7280;
+  --line: #e6e7eb;
+  --accent: #0b5cab;
+  --script-bg: #f6f7f9;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 860px; margin: 0 auto; padding: 48px 24px 96px; }
+h1 { font-size: 20px; font-weight: 500; color: var(--muted); margin: 0 0 40px; }
+section { padding: 40px 0; border-top: 1px solid var(--line); }
+section:first-of-type { border-top: none; padding-top: 0; }
+h2 { font-size: 26px; font-weight: 600; margin: 0 0 20px; line-height: 1.25; }
+h2 .n { color: var(--accent); margin-right: 10px; }
+video { display: block; width: 100%; border-radius: 12px; background: #000; margin: 0 0 24px; }
+.script {
+  background: var(--script-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+  padding: 22px 24px;
+  font-size: 17px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  margin: 0 0 16px;
+}
+.script:last-child { margin-bottom: 0; }
+.label {
+  font-size: 12px; font-weight: 600; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted); margin: 24px 0 10px;
+}
+@media (max-width: 600px) {
+  .wrap { padding: 32px 16px 64px; }
+  h2 { font-size: 22px; }
+  .script { font-size: 16px; padding: 18px; }
+}
+</style></head><body>
+<div class="wrap">
+<h1>Talk Tracks</h1>
+<section>
+<h2><span class="n">1)</span>First-Call Up-Front Contract</h2>
+<video controls preload="none" playsinline poster="poster.png" src="1%29%20FIRST-CALL%20UP-FRONT%20CONTRACT.mp4"></video>
+<div class="script">“All right, I tell you what, let me set the stage for us real quick. The point of this call is pretty casual. I know you already talked with the call center. I’m gonna give you some options and help you understand what this is, what it costs, and anything else you want to know.
 
-</head>
-<body>
-<script>(function(){try{var t=JSON.parse(localStorage.getItem("lcl:theme")||'"light"');document.documentElement.setAttribute("data-theme",t);var n=JSON.parse(localStorage.getItem("lcl:nav")||'"open"');if(n==="closed")document.documentElement.classList.add("pre-nav-closed");}catch(e){}})();</script>
-<header class="topbar">
-  <button class="iconbtn" data-act="nav" aria-label="Toggle navigation"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
-  <a class="brand" href="index.html">LinkedIn Client Lab</a>
-  <button class="iconbtn" data-act="theme" aria-label="Switch light or dark"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.4v2M12 19.6v2M4.2 4.2l1.5 1.5M18.3 18.3l1.5 1.5M2.4 12h2M19.6 12h2M4.2 19.8l1.5-1.5M18.3 5.7l1.5-1.5"/></svg></button>
-</header>
-<div class="shell">
-<nav class="sidebar" aria-label="Course sections"><a class="nav-head nav-direct" href="v/1-masterclass.html"><span class="dot" style="background:linear-gradient(135deg,#4B3FD1,#7C3FD1)"></span>Masterclass</a><a class="nav-head nav-direct" href="v/2-training.html"><span class="dot" style="background:linear-gradient(135deg,#0E7F8C,#12A37C)"></span>Training</a><a class="nav-head nav-direct" href="v/3-macro-dm.html"><span class="dot" style="background:linear-gradient(135deg,#2544C4,#1E8AD6)"></span>Macro DM</a><a class="nav-head nav-direct" href="v/4-micro-dm.html"><span class="dot" style="background:linear-gradient(135deg,#A82C9E,#D43C77)"></span>Micro DM</a><details class="nav-group"><summary class="nav-head"><span class="dot" style="background:linear-gradient(135deg,#C07A16,#D65E28)"></span>Answer Sessions<span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span></summary><ul class="nav-list"><li><a href="sections/answer-sessions.html">All answer sessions</a></li><li><a href="v/5-1-how-to-dm-the-6-levels-of-prospect-warmth.html">5.1  How to DM the 6 Levels of Prospect Warmth</a></li><li><a href="v/5-2-live-answers.html">5.2  Live Answers</a></li><li><a href="v/5-3-live-answers.html">5.3  Live Answers</a></li><li><a href="v/5-4-live-answers.html">5.4  Live Answers</a></li><li><a href="v/5-5-live-answers.html">5.5  Live Answers</a></li></ul></details><details class="nav-group"><summary class="nav-head"><span class="dot" style="background:linear-gradient(135deg,#4A4E7A,#6E4A86)"></span>Resources<span class="chev"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span></summary><ul class="nav-list"><li><a href="sections/resources.html">All resources</a></li><li><a href="tools/ai-content-bot.html">AI Content Bot</a></li><li><a href="tools/acceptance-checklist.html">50%+ Acceptance Rate Checklist</a></li><li><a href="tools/lab-resources.html">Lab Resources</a></li><li><a href="tools/tuesday-training.html">Tuesday Training Vault</a></li></ul></details></nav>
-<main class="main">
-<div class="wrap-wide"><h1 class="title">LinkedIn Client Lab</h1><div class="hub-grid"><a class="tile" href="v/1-masterclass.html" style="--t1:#4B3FD1;--t2:#7C3FD1"><span class="tile-mark"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M19 19H6"/></svg></span><span class="tile-name">Masterclass</span></a><a class="tile" href="v/2-training.html" style="--t1:#0E7F8C;--t2:#12A37C"><span class="tile-mark"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg></span><span class="tile-name">Training</span></a><a class="tile" href="v/3-macro-dm.html" style="--t1:#2544C4;--t2:#1E8AD6"><span class="tile-mark"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14a2 2 0 0 1-2 2H8l-4 4V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/></svg></span><span class="tile-name">Macro DM</span></a><a class="tile" href="v/4-micro-dm.html" style="--t1:#A82C9E;--t2:#D43C77"><span class="tile-mark"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></svg></span><span class="tile-name">Micro DM</span></a><a class="tile" href="sections/answer-sessions.html" style="--t1:#C07A16;--t2:#D65E28"><span class="tile-mark"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.2 9.4a2.9 2.9 0 1 1 3.6 3.1c-.6.2-.8.7-.8 1.3v.4"/><path d="M12 17.4h.01"/></svg></span><span class="tile-name">Answer Sessions</span></a><a class="tile" href="sections/resources.html" style="--t1:#4A4E7A;--t2:#6E4A86"><span class="tile-mark"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 12 4l9 4.5v7L12 20l-9-4.5z"/><path d="M3 8.5 12 13l9-4.5M12 13v7"/></svg></span><span class="tile-name">Resources</span></a></div></div>
-</main>
-</div>
-<script>if(document.documentElement.classList.contains("pre-nav-closed"))document.body.classList.add("nav-closed");</script>
-<script src="assets/app.js"></script>
+At the end, if it seems like a good fit and it’s what you’re looking for, I’ll typically pause and schedule a separate time to walk you through some options. If it’s not what you’re looking for, no hard feelings. We can part ways as friends. Does that work?”</div>
+<div class="label">Opening Pain Question</div>
+<div class="script">“I’ve got the notes from the call center, and I’ll be your final point of contact. There might be a little bit of redundancy, but just so I’m not reading you a brochure about Home Nation….. help me understand what piqued your interest in having this call. Then I’ll try to help any way I can.”</div>
+</section>
+<section>
+<h2><span class="n">2)</span>Transition to the Options Call</h2>
+<video controls preload="none" playsinline poster="poster.png" src="2%29%20TRANSITION%20TO%20THE%20OPTIONS%20CALL.mp4"></video>
+<div class="script">“All right, so at this point, every question you could ask me is probably some variation of, ‘What do you guys actually have?’ Which is correct. At this point, I’ll typically pause and schedule a separate time to walk you through some options, if you’d like…...” (mute)</div>
+</section>
+<section>
+<h2><span class="n">3)</span>Scheduling the Go/No-Go Call</h2>
+<video controls preload="none" playsinline poster="poster.png" src="3%29%20SCHEDULING%20THE%20GO%3ANO-GO%20CALL.mp4"></video>
+<div class="script">“Okay, I tell you what, I’m going to send you everything I showed you so you can talk this over…..
 
-</body>
-</html>
+I don’t want to call and interrupt your day at any point…...Do you mind if we set a five-minute placeholder for [whatever day] at [whatever time], I'll follow your lead on what time works best…..
+
+<b>And the point of that is…....</b> If you wanna get set up, I can help with that. If you decide it isn’t for you, just send me an email or text and we’ll cancel the call. Or if you have questions, I can answer those too.”</div>
+</section>
+</div></body></html>
